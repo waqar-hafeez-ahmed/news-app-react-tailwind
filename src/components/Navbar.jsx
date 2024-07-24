@@ -39,7 +39,7 @@ const Navbar = () => {
             />
           )}
         </div>
-        <a href="#" className="flex items-center space-x-3 mx-auto">
+        <a href="#" className="flex items-center space-x-3 mx-auto absolute">
           <img src={Logo} className="h-8" alt="Logo" />
         </a>
       </div>
