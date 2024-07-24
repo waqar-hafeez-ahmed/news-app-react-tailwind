@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Logo from "../assets/Logo.svg";
-import sidebar from "../assets/sidebar.svg";
 
 const Navbar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -17,7 +16,7 @@ const Navbar = () => {
   return (
     <nav className="bg-white border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 relative">
-        <div className="flex items-center absolute">
+        <div className="flex items-center">
           <button
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-xl text-black rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -32,6 +31,13 @@ const Navbar = () => {
           >
             <i class="fa-solid fa-search"></i>
           </button>
+          {isSearchActive && (
+            <input
+              type="text"
+              className="ml-4 p-2 border rounded"
+              placeholder="Search..."
+            />
+          )}
         </div>
         <a href="#" className="flex items-center space-x-3 mx-auto">
           <img src={Logo} className="h-8" alt="Logo" />
