@@ -1,35 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import NewsList from "./components/NewsList";
 
 const App = () => {
+  const [searchItem, setSearchItem] = useState("");
+  const [category, setCategory] = useState("");
+
+  const handleSearchItem = (searchItem) => {
+    setSearchItem(searchItem);
+    console.log("Search Item:", searchItem);
+    console.log("Category:", category);
+  };
+
+  const handleCategoryChange = (category) => {
+    setCategory(category);
+    console.log("Category:", category);
+    console.log("Search Item:", searchItem);
+  };
+
+  useEffect(() => {
+    return () => {
+      setCategory("");
+      setSearchItem("");
+    };
+  }, [searchItem, category]);
+
   return (
     <div>
-      <Navbar />
-      <NewsList />
+      <Navbar
+        searchItem={handleSearchItem}
+        setCategory={handleCategoryChange}
+      />
+      <NewsList searchQuery={searchItem} category={category} />
     </div>
   );
 };
 
 export default App;
-
-//requirements
-//Layout
-//Assets
-//Fonts
-//components resusable / shared repos
-// Component vs Container
-//pages are for frameworks.
-//resuable components.
-//portfolio.
-//routes
-//API
-//projects
-//Resume
-//Q n A
-//Approach HR
-//research company
-//prepare for interview
-//prepare for coding test / leet code.
-//read tech article
-//Make an0 ideal
