@@ -8,14 +8,10 @@ const App = () => {
 
   const handleSearchItem = (searchItem) => {
     setSearchItem(searchItem);
-    console.log("Search Item:", searchItem);
-    console.log("Category:", category);
   };
 
   const handleCategoryChange = (category) => {
     setCategory(category);
-    console.log("Category:", category);
-    console.log("Search Item:", searchItem);
   };
 
   useEffect(() => {
