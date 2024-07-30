@@ -15,48 +15,41 @@ const NewsList = ({ searchQuery, category }) => {
       setError(null);
 
       const localStorageKey = searchQuery
-        ? `search_${searchQuery}_${category || "general"}_${page}`
-        : `latest_news_${category || "general"}_${page}`;
-
-      // try {
-      //   const storedArticles = localStorage.getItem(localStorageKey);
-      //   if (storedArticles) {
-      //     const parsedArticles = JSON.parse(storedArticles);
-      //     setArticles((prev) =>
-      //       page === 1 ? parsedArticles : [...prev, ...parsedArticles]
-      //     );
-      //     setHasMore(parsedArticles.length > 0);
-      //     setLoading(false);
-      //     return;
-      //   }
-      // } catch (error) {
-      //   console.error("Error accessing localStorage", error);
-      // }
+        ? `search_${searchQuery}_${page}`
+        : `latest_news_${category || "general"}`;
 
       try {
-        let url = "";
+        let storedArticles =
+          JSON.parse(localStorage.getItem(localStorageKey)) || [];
+        if (storedArticles.length > 0) {
+          console.log(storedArticles, "Hi from localStorage");
+          setArticles((prev) =>
+            page === 1 ? storedArticles : [...prev, ...storedArticles]
+          );
+          setHasMore(storedArticles.length > 0);
+          setLoading(false);
+          return;
+        }
+
         const apiKey = "ea62d7ca1ebe44079b1812b8bd6ee0a2";
-        console.log("searchQuery:", searchQuery);
-        console.log("Search category:", category);
+        let url = "";
 
         if (searchQuery) {
-          url = `https://newsapi.org/v2/everything?q=${searchQuery}&pageSize=20&page=${page}&apiKey=${apiKey}`;
+          url = `https://newsapi.org/v2/everything?q=${searchQuery}&pageSize=40&page=${page}&apiKey=${apiKey}`;
         } else {
-          url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&pageSize=20&page=${page}&apiKey=${apiKey}`;
+          url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&pageSize=40&apiKey=${apiKey}`;
         }
 
         const response = await axios.get(url);
-        console.log(response);
         const fetchedArticles = response.data.articles;
 
         localStorage.setItem(localStorageKey, JSON.stringify(fetchedArticles));
-        setArticles(fetchedArticles);
-        // setArticles((prev) =>
-        //   page === 1 ? fetchedArticles : [...prev, ...fetchedArticles]
-        // );
+        setArticles((prev) =>
+          page === 1 ? fetchedArticles : [...prev, ...fetchedArticles]
+        );
         setHasMore(fetchedArticles.length > 0);
       } catch (error) {
-        setError(error.message);
+        setError("Failed to fetch news. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -81,28 +74,29 @@ const NewsList = ({ searchQuery, category }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [loading, hasMore]);
 
-  // Reset page and articles when searchQuery or category changes
   useEffect(() => {
     setPage(1);
     setArticles([]);
   }, [searchQuery, category]);
 
-  if (loading && page === 1) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-
   return (
     <div className="flex flex-wrap justify-center">
-      {articles.map((article, index) => (
-        <NewsCard
-          key={index}
-          title={article.title}
-          description={article.description}
-          source={article.source.name}
-          date={article.publishedAt}
-          imageUrl={article.urlToImage}
-          url={article.url}
-        />
-      ))}
+      {loading && page === 1 && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {articles.map(
+        (article, index) =>
+          article.title !== "[Removed]" && (
+            <NewsCard
+              key={index}
+              title={article.title}
+              description={article.description}
+              source={article.source.name}
+              date={article.publishedAt}
+              imageUrl={article.urlToImage}
+              url={article.url}
+            />
+          )
+      )}
       {loading && page > 1 && <p>Loading more...</p>}
     </div>
   );
