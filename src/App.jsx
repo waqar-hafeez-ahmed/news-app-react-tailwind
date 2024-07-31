@@ -14,12 +14,12 @@ const App = () => {
     setCategory(category);
   };
 
-  useEffect(() => {
-    return () => {
-      setCategory("");
-      setSearchItem("");
-    };
-  }, [searchItem, category]);
+  // useEffect(() => {
+  //   return () => {
+  //     setCategory("");
+  //     setSearchItem("");
+  //   };
+  // }, [searchItem, category]);
 
   return (
     <div>

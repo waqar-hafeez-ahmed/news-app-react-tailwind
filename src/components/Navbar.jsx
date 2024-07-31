@@ -41,7 +41,7 @@ const Navbar = ({ searchItem, setCategory }) => {
   };
 
   return (
-    <nav className="bg-white border-gray-200">
+    <nav className="bg-white border-gray-200 sticky top-0">
       <div className="flex flex-wrap items-center justify-between mx-auto p-4 relative">
         <div className="flex items-center">
           <button

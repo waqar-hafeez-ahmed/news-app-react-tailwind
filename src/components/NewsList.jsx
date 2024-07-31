@@ -8,6 +8,7 @@ const NewsList = ({ searchQuery, category }) => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const apiKey = "554ff6992d8c45fb8f3249e3aa601b78";
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -31,7 +32,6 @@ const NewsList = ({ searchQuery, category }) => {
           return;
         }
 
-        const apiKey = "ea62d7ca1ebe44079b1812b8bd6ee0a2";
         let url = "";
 
         if (searchQuery) {
