@@ -35,7 +35,7 @@ const NewsList = ({ searchQuery, category }) => {
         let url = "";
 
         if (searchQuery) {
-          url = `https://newsapi.org/v2/everything?q=${searchQuery}&pageSize=40&page=${page}&apiKey=${apiKey}`;
+          url = `https://newsapi.org/v2/everything?q=${searchQuery}&pageSize=30&page=${page}&apiKey=${apiKey}`;
         } else {
           url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&pageSize=40&apiKey=${apiKey}`;
         }
